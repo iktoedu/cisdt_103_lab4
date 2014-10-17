@@ -20,6 +20,7 @@ class Vector
         Vector &operator+=(const Vector &);
         Vector &operator*=(const double);
         Vector &operator-=(const Vector &);
+        void mergeWith(const Vector &);
 
         friend double operator*(const Vector &, const Vector &);
         friend std::ostream &operator<<(std::ostream &, const Vector &);

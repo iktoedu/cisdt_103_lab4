@@ -79,5 +79,16 @@ int main()
 
     cout << "Vector 1 * Vector 2" << endl << (*vector1 * *vector2) << endl;
 
+    cout << "Vector 1 again" << endl << *vector1 << endl;
+
+    try {
+        cin >> *vector1;
+    }
+    catch (exception e) {
+        cout << "Caught exception" << e.what() << endl;
+    }
+
+    cout << "Vector 1 again" << endl << *vector1 << endl;
+
     return 0;
 }

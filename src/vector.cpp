@@ -107,3 +107,13 @@ Vector &Vector::operator-=(const Vector &arg)
 
     return *this;
 }
+
+void Vector::mergeWith(const Vector &arg)
+{
+    double *new_array = new double[this->n + arg.n];
+    memcpy(new_array, this->a, sizeof(double) * this->n);
+    memcpy(new_array + this->n, arg.a, sizeof(double) * arg.n);
+    delete [] this->a;
+    this->a = new_array;
+    this->n += arg.n;
+}

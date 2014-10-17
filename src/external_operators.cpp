@@ -1,5 +1,16 @@
 #include "external_operators.h"
 #include <algorithm>
+#include <stdexcept>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
+
+#define INPUT_MODE_WAITING          0
+#define INPUT_MODE_INPUT            1
+#define INPUT_MODE_COMPLETE         2
+
+#define INPUT_BUFFER_CHAR_LIMIT     255
+#define INPUT_BUFFER_DOUBLE_LIMIT   255
 
 double operator*(const Vector &arg1, const Vector &arg2)
 {
@@ -52,4 +63,62 @@ std::ostream &operator<<(std::ostream &output, const Vector &arg)
     output << std::endl;
 
     return output;
+}
+
+std::istream &operator>>(std::istream &input, Vector &arg)
+{
+    unsigned char mode = INPUT_MODE_WAITING;
+    char allowedCharacters[12] = {'0','1','2','3','4','5','6','7','8','9','-','.'};
+    char buffer[INPUT_BUFFER_CHAR_LIMIT];
+    double elements[INPUT_BUFFER_DOUBLE_LIMIT];
+    unsigned int elementCount = 0;
+    buffer[0] = '\0';
+
+    try {
+        while (INPUT_MODE_COMPLETE != mode) {
+            char c = input.get();
+            char m[2] = {'\0', '\0'};
+            m[0] = c;
+            // Exclude all spaces
+            if (' ' == c) {
+                continue;
+            }
+            if (INPUT_MODE_WAITING == mode) {
+                if ('{' != c) {
+                    char error[255];
+                    sprintf(error, "Excepcted '%c' but '%c' found", '{', c);
+                    throw new std::invalid_argument(error);
+                }
+                mode = INPUT_MODE_INPUT;
+            } else {
+                if ((',' == c) || ('}' == c)) {
+                    double element = atof(buffer);
+                    elements[elementCount++] = element;
+                    if ('}' == c) {
+                        mode = INPUT_MODE_COMPLETE;
+                    }
+                    // Restart new buffer
+                    buffer[0] = '\0';
+                } else if (strstr(allowedCharacters, m)) {
+                    unsigned int l = strlen(buffer);
+                    buffer[l] = c;
+                    buffer[l+1] = '\0';
+                } else {
+                    char error[255];
+                    sprintf(error, "Excepcted [%s] but '%c' found", allowedCharacters, c);
+                    throw new std::invalid_argument(error);
+                }
+            }
+        }
+    }
+    catch (std::invalid_argument e) {
+        elementCount = 0;
+        throw e;
+    }
+
+    if (elementCount) {
+        arg.mergeWith(Vector(elementCount, elements));
+    }
+
+    return input;
 }
