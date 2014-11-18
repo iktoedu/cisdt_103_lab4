@@ -35,9 +35,11 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/external_operators.h" />
+		<Unit filename="include/matrix.h" />
 		<Unit filename="include/vector.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/external_operators.cpp" />
+		<Unit filename="src/matrix.cpp" />
 		<Unit filename="src/vector.cpp" />
 		<Extensions>
 			<envvars />

@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include <iomanip>
 
 #define INPUT_MODE_WAITING          0
 #define INPUT_MODE_INPUT            1
@@ -121,4 +122,18 @@ std::istream &operator>>(std::istream &input, Vector &arg)
     }
 
     return input;
+}
+
+std::ostream &operator<<(std::ostream &output, const Matrix &arg)
+{
+    output << "Matrix size: " << arg.nRows() << "x" << arg.nCols() << std::endl;
+
+    for (unsigned int i = 0; i < arg.nRows(); i++) {
+        for (unsigned int j = 0; j < arg.nCols(); j++) {
+            output << std::setw(5) << arg[i][j];
+        }
+        output << std::endl;
+    }
+
+    return output;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "vector.h"
 #include "external_operators.h"
+#include "matrix.h"
 
 using namespace std;
 
@@ -81,14 +82,24 @@ int main()
 
     cout << "Vector 1 again" << endl << *vector1 << endl;
 
-    try {
-        cin >> *vector1;
-    }
-    catch (exception e) {
-        cout << "Caught exception" << e.what() << endl;
-    }
+//    try {
+//        cin >> *vector1;
+//    }
+//    catch (exception e) {
+//        cout << "Caught exception" << e.what() << endl;
+//    }
 
     cout << "Vector 1 again" << endl << *vector1 << endl;
+
+    Matrix matrix1(4,4);
+    cout << matrix1;
+
+    double sr[9] = {-3,4,1,2,7,-2,5,-5,-6};
+    Matrix matrix2(3,3,sr);
+    cout << matrix2;
+    cout << matrix2.column(1);
+    cout << matrix2.transpose();
+    cout << "Determinant: " << matrix2.det() << "\nDeterminant of transposed: " << matrix2.transpose().det() << endl;
 
     return 0;
 }
